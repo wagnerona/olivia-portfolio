@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import image1 from '../Images/image1.png';
 import image2 from '../Images/image2.png';
@@ -9,6 +9,29 @@ import image5 from '../Images/image5.png';
 
 
 const Home = () => {
+
+  useEffect(() => {
+    const resetAnimations = () => {
+      const images = document.querySelectorAll('.image1, .image2, .image3, .image4, .image5');
+      images.forEach(image => {
+        image.style.animation = 'none';
+        // eslint-disable-next-line no-unused-expressions
+        image.offsetHeight; // Trigger reflow to reset animation
+        image.style.animation = null;
+      });
+    };
+
+    // Reset animations every 6 seconds
+    const intervalId = setInterval(() => {
+      resetAnimations();
+    }, 6000);
+
+    // Cleanup the interval on component unmount
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [])
+
   return (
     <section name="home" className="bg-movies h-screen bg-[#C9B6A6] text-white">
       <div className="mx-auto max-w-screen-xl px-4 py-32 flex h-screen items-center">
@@ -22,7 +45,7 @@ const Home = () => {
             Olivia Brown
           </h1>
           <p className="mx-auto mt-4 max-w-xl font sm:text-xl sm:leading-relaxed">
-            Tell us what type of movies you're looking for and we'll handle the rest
+            Junior Stylist and creative
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
